@@ -49,3 +49,14 @@ h2,
 h3 {
   font-family: var(--font-patrick-hand), cursive;
 }
+
+@layer utilities {
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+}

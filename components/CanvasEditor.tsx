@@ -14,6 +14,7 @@ interface CanvasEditorProps {
 }
 
 export default function CanvasEditor({ currentTool, onImageUploadTrigger, noteId, canvasData, onCanvasChange, penColor }: CanvasEditorProps) {
+    const containerRef = useRef<HTMLDivElement>(null);
     const canvasRef = useRef<HTMLCanvasElement>(null);
     const fabricCanvasRef = useRef<Canvas | null>(null);
     const fileInputRef = useRef<HTMLInputElement>(null);
@@ -26,18 +27,32 @@ export default function CanvasEditor({ currentTool, onImageUploadTrigger, noteId
 
     // Fabric.jsキャンバスの初期化
     useEffect(() => {
-        if (!canvasRef.current) return;
+        if (!canvasRef.current || !containerRef.current) return;
+
+        const containerWidth = containerRef.current.clientWidth;
+        const initialWidth = Math.min(containerWidth, 800);
 
         const canvas = new Canvas(canvasRef.current, {
-            width: 800,
+            width: initialWidth,
             height: 600,
             backgroundColor: 'transparent',
         });
 
         fabricCanvasRef.current = canvas;
 
+        // レスポンシブ対応のためのResizeObserver
+        const resizeObserver = new ResizeObserver((entries) => {
+            if (!entries[0] || !fabricCanvasRef.current) return;
+            const newWidth = Math.min(entries[0].contentRect.width, 800);
+            fabricCanvasRef.current.setDimensions({ width: newWidth, height: 600 });
+            fabricCanvasRef.current.renderAll();
+        });
+
+        resizeObserver.observe(containerRef.current);
+
         return () => {
             canvas.dispose();
+            resizeObserver.disconnect();
         };
     }, []);
 
@@ -371,7 +386,7 @@ export default function CanvasEditor({ currentTool, onImageUploadTrigger, noteId
     };
 
     return (
-        <div className="relative">
+        <div className="relative w-full max-w-[800px]">
             <input
                 ref={fileInputRef}
                 type="file"
@@ -380,9 +395,10 @@ export default function CanvasEditor({ currentTool, onImageUploadTrigger, noteId
                 className="hidden"
             />
             <div
+                ref={containerRef}
                 onDrop={handleDrop}
                 onDragOver={handleDragOver}
-                className="inline-block border-2 border-dashed border-gray-300 rounded-lg overflow-hidden"
+                className="w-full border-2 border-dashed border-gray-300 rounded-lg overflow-hidden bg-white"
             >
                 <canvas ref={canvasRef} />
             </div>

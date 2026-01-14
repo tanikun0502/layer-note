@@ -50,16 +50,16 @@ export default function NotePage() {
             />
 
             {/* ノートページコンテンツ */}
-            <div className="flex-1 p-8 overflow-y-auto">
+            <div className="flex-1 p-2 sm:p-8 overflow-y-auto">
                 {/* ノートページコンテナ - 紙の立体感 */}
-                <div className="max-w-4xl mx-auto bg-notebook-cream rounded-lg shadow-2xl p-8 min-h-[800px] notebook-lines">
+                <div className="max-w-4xl mx-auto bg-notebook-cream rounded-lg shadow-2xl p-4 sm:p-8 min-h-[calc(100vh-200px)] notebook-lines">
                     {/* タイトル入力 */}
                     <input
                         type="text"
                         value={currentNote.title}
                         onChange={(e) => handleTitleChange(e.target.value)}
                         placeholder="ページタイトルを入力..."
-                        className="w-full text-3xl font-display bg-transparent border-none outline-none text-gray-800 placeholder-gray-400 mb-4"
+                        className="w-full text-2xl sm:text-3xl font-display bg-transparent border-none outline-none text-gray-800 placeholder-gray-400 mb-4"
                     />
 
                     {/* タグ入力 */}
@@ -70,7 +70,7 @@ export default function NotePage() {
                     />
 
                     {/* キャンバスエディタ */}
-                    <div className="flex justify-center">
+                    <div className="flex justify-center mt-4 sm:mt-8">
                         <CanvasEditor
                             currentTool={currentTool}
                             onImageUploadTrigger={imageUploadTrigger}
