@@ -1,26 +1,51 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* ノートブック風カラー */
+  --notebook-cream: #FDFBF7;
+  --notebook-line: #D1E5F4;
+  --pastel-sage: #B8D4C8;
+  --pastel-teal: #A8C9C1;
+  --text-primary: #2C2C2C;
+  --text-secondary: #5A5A5A;
+
+  /* フォント */
+  --font-body: var(--font-inter);
+  --font-heading: var(--font-patrick-hand);
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
+  /* カスタムカラー */
+  --color-notebook-cream: var(--notebook-cream);
+  --color-notebook-line: var(--notebook-line);
+  --color-pastel-sage: var(--pastel-sage);
+  --color-pastel-teal: var(--pastel-teal);
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  /* フォント */
+  --font-sans: var(--font-body);
+  --font-display: var(--font-heading);
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--notebook-cream);
+  color: var(--text-primary);
+  font-family: var(--font-inter), system-ui, -apple-system, sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+/* ノートの横罫線エフェクト */
+.notebook-lines {
+  background-image: repeating-linear-gradient(transparent,
+      transparent 31px,
+      var(--notebook-line) 31px,
+      var(--notebook-line) 32px);
+  background-size: 100% 32px;
+}
+
+/* 手書き風見出し */
+h1,
+h2,
+h3 {
+  font-family: var(--font-patrick-hand), cursive;
 }
